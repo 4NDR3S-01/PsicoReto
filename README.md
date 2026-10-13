@@ -1,36 +1,76 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# PsicoReto
 
-## Getting Started
+Aplicación web de estudio para **Semiología y Psicopatología I**. Convierte el material
+del curso (procesos y funciones psicológicas + síndromes psicopatológicos) en una
+experiencia de aprendizaje guiada: unidades, palabras clave, casos clínicos, retos y
+repaso espaciado, con progreso, XP, rachas y logros.
 
-First, run the development server:
+> El contenido proviene de los apuntes de la asignatura (docente: Psi. Clin. Paola
+> Intriago Alarcón, Mg). No se inventan datos clínicos.
+
+## Funcionalidades
+
+- **Ruta de aprendizaje** con 12 unidades y niveles de progreso por unidad.
+- **Palabras clave** con definiciones y fichas de repaso.
+- **Casos clínicos** con viñeta, preguntas y corrección explicada.
+- **Retos**: flashcards, emparejar término–definición, test rápido e identificación de síntomas.
+- **Modo examen** cronometrado, con autocorrección y preguntas de todo el temario.
+- **Repaso espaciado** (sistema Leitner) de los términos fallados.
+- **Gamificación**: XP, niveles, racha diaria, meta diaria, insignias, logros,
+  estadísticas y historial de actividad.
+- **Glosario** y **fichas de síndromes** buscables.
+- **Perfil** con avatar, modo oscuro, sonido y gestión de cuenta.
+- Sincronización opcional con la nube (Supabase) y respaldo local en el navegador.
+
+## Tecnologías
+
+- [Next.js 16](https://nextjs.org) (App Router) + React 19 + TypeScript
+- [Tailwind CSS 4](https://tailwindcss.com)
+- [Supabase](https://supabase.com) para autenticación y persistencia
+
+## Puesta en marcha
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Abre [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Crea un archivo `.env` con tus credenciales de Supabase:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+NEXT_PUBLIC_SUPABASE_URL=...
+NEXT_PUBLIC_SUPABASE_ANON_KEY=...
+```
 
-## Learn More
+Sin Supabase la app funciona igual, guardando el progreso solo en el navegador.
+Para sincronizar entre dispositivos, ejecuta `supabase/schema.sql` en el SQL Editor
+de tu proyecto de Supabase.
 
-To learn more about Next.js, take a look at the following resources:
+## Scripts
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+npm run dev     # servidor de desarrollo
+npm run build   # compilación de producción
+npm run start   # servidor de producción
+npm run lint    # análisis estático
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Identidad visual
 
-## Deploy on Vercel
+Marca e interfaz propias de PsicoReto: logotipo Ψ (símbolo de la psicología),
+paleta violeta/índigo con acentos turquesa y ámbar, tipografías geométricas
+(Sora + Plus Jakarta Sans) y componentes de elevación suave. No reproduce la
+apariencia de otras aplicaciones.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Estructura
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
+app/                 rutas (login, inicio, unidades, casos, retos, examen, repaso, …)
+components/          UI compartida (logo, navegación, runner de quizzes, tarjetas)
+lib/data/            contenido de la asignatura (unidades, casos, síndromes, datos)
+lib/progress.ts      progreso, XP, rachas, logros y repaso espaciado
+lib/quiz.ts          generadores de preguntas
+supabase/schema.sql  tabla y políticas de progreso
+```

@@ -1,26 +1,276 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
+/*
+  Identidad PsicoReto
+  -------------------
+  Paleta propia (violeta/índigo + turquesa), tipografía geométrica y
+  componentes de elevación suave. Deliberadamente distinta de cualquier
+  referencia previa: sin verde lima, sin tipografía redondeada ni botones
+  "3D" con borde grueso.
+*/
+
+@theme {
+  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-display: var(--font-sora), var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+
+  --color-brand: #6c4cf1;
+  --color-brand-dark: #5334d6;
+  --color-brand-soft: #ece8ff;
+  --color-sky: #2d9cdb;
+  --color-sky-dark: #1f7bb0;
+  --color-accent: #14b8a6;
+  --color-accent-dark: #0d9488;
+  --color-danger: #e8476b;
+  --color-danger-dark: #c62b4e;
+  --color-gold: #f5b301;
+  --color-flame: #ff7a3d;
+
+  --shadow-soft: 0 1px 2px rgba(26, 20, 54, 0.06), 0 10px 30px -16px rgba(26, 20, 54, 0.28);
+  --shadow-lift: 0 2px 4px rgba(26, 20, 54, 0.08), 0 18px 40px -18px rgba(26, 20, 54, 0.35);
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: #f6f6fb;
+  --surface: #ffffff;
+  --surface-2: #f1f0f8;
+  --line: #e5e3f0;
+  --ink: #1b1830;
+  --muted: #6a6785;
+  --ring: rgba(108, 76, 241, 0.35);
+  color-scheme: light;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+.dark {
+  --bg: #12101d;
+  --surface: #1a1730;
+  --surface-2: #232043;
+  --line: #332e56;
+  --ink: #f2f0fb;
+  --muted: #a49fc6;
+  --ring: rgba(124, 92, 255, 0.45);
+  color-scheme: dark;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  -webkit-tap-highlight-color: transparent;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  letter-spacing: -0.015em;
+}
+
+@layer components {
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 1.35rem;
+    box-shadow: var(--shadow-soft);
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: 0.95rem;
+    padding: 0.78rem 1.35rem;
+    font-weight: 700;
+    font-size: 0.95rem;
+    letter-spacing: 0;
+    transition:
+      transform 0.12s ease,
+      box-shadow 0.2s ease,
+      filter 0.15s ease,
+      background 0.2s ease;
+    user-select: none;
+    box-shadow: var(--shadow-soft);
+  }
+  .btn:active:not(:disabled) {
+    transform: translateY(1px) scale(0.995);
+  }
+  .btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, #7c5cff 0%, #5a37e0 100%);
+    color: #fff;
+  }
+  .btn-primary:hover:not(:disabled) {
+    filter: brightness(1.08);
+  }
+  .btn-sky {
+    background: var(--color-sky);
+    color: #fff;
+  }
+  .btn-sky:hover:not(:disabled) {
+    filter: brightness(1.07);
+  }
+  .btn-accent {
+    background: var(--color-accent);
+    color: #fff;
+  }
+  .btn-accent:hover:not(:disabled) {
+    filter: brightness(1.07);
+  }
+  .btn-danger {
+    background: var(--color-danger);
+    color: #fff;
+  }
+  .btn-danger:hover:not(:disabled) {
+    filter: brightness(1.07);
+  }
+  .btn-ghost {
+    background: var(--surface);
+    color: var(--ink);
+    border: 1px solid var(--line);
+    box-shadow: none;
+  }
+  .btn-ghost:hover:not(:disabled) {
+    background: var(--surface-2);
+  }
+
+  .input {
+    width: 100%;
+    border-radius: 0.95rem;
+    border: 1.5px solid var(--line);
+    background: var(--surface);
+    padding: 0.8rem 1rem;
+    font-weight: 600;
+    outline: none;
+    color: var(--ink);
+    transition:
+      border-color 0.15s ease,
+      box-shadow 0.15s ease;
+  }
+  .input:focus {
+    border-color: var(--color-brand);
+    box-shadow: 0 0 0 4px var(--ring);
+  }
+
+  .muted {
+    color: var(--muted);
+  }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    border-radius: 999px;
+    padding: 0.22rem 0.7rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    border: 1px solid var(--line);
+    background: var(--surface);
+  }
+
+  .section-title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+}
+
+.gradient-text {
+  background: linear-gradient(120deg, #7c5cff 0%, #2d9cdb 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.gradient-brand {
+  background: linear-gradient(135deg, #7c5cff 0%, #5a37e0 100%);
+}
+.gradient-hero {
+  background:
+    radial-gradient(120% 120% at 0% 0%, rgba(124, 92, 255, 0.22) 0%, rgba(124, 92, 255, 0) 55%),
+    radial-gradient(120% 120% at 100% 0%, rgba(45, 156, 219, 0.18) 0%, rgba(45, 156, 219, 0) 50%);
+}
+
+@keyframes pop {
+  0% {
+    transform: scale(0.92);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.02);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+.animate-pop {
+  animation: pop 0.25s ease-out;
+}
+
+@keyframes slideup {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+.animate-slideup {
+  animation: slideup 0.2s ease-out;
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-6px);
+  }
+  75% {
+    transform: translateX(6px);
+  }
+}
+.animate-shake {
+  animation: shake 0.25s;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+.animate-float {
+  animation: float 3.5s ease-in-out infinite;
+}
+
+.flip {
+  perspective: 1200px;
+}
+.flip-inner {
+  transition: transform 0.45s;
+  transform-style: preserve-3d;
+  position: relative;
+}
+.flip-inner.flipped {
+  transform: rotateY(180deg);
+}
+.flip-face {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  position: absolute;
+  inset: 0;
+}
+.flip-back {
+  transform: rotateY(180deg);
 }
