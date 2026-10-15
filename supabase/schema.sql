@@ -1,5 +1,5 @@
--- Ejecuta este script en el SQL Editor de Supabase para sincronizar el progreso entre dispositivos.
--- Sin esta tabla la app funciona igual, guardando el progreso solo en el navegador.
+-- Semiopsique · ejecuta este script en el SQL Editor de Supabase para sincronizar el avance entre dispositivos.
+-- Sin esta tabla la app funciona igual, guardando el avance solo en el navegador.
 
 create table if not exists public.progress (
   user_id uuid primary key references auth.users (id) on delete cascade,

@@ -1,32 +1,27 @@
-# PsicoReto
+# Semiopsique
 
-Aplicación web de estudio para **Semiología y Psicopatología I**. Convierte el material
-del curso (procesos y funciones psicológicas + síndromes psicopatológicos) en una
-experiencia de aprendizaje guiada: unidades, palabras clave, casos clínicos, retos y
-repaso espaciado, con progreso, XP, rachas y logros.
+Juego de estudio para **Psicopatología I: Semiología y fenomenología**. La materia se
+recorre como una galaxia: cada función psíquica es un planeta que se explora, se
+conquista con misiones y desbloquea el siguiente.
 
-> El contenido proviene de los apuntes de la asignatura (docente: Psi. Clin. Paola
-> Intriago Alarcón, Mg). No se inventan datos clínicos.
+## Qué incluye
 
-## Funcionalidades
+- **Inicio de sesión** directo al entrar (Supabase Auth) y progreso sincronizado.
+- **Mapa galáctico** con 11 planetas (conciencia, orientación, atención, memoria,
+  percepción, pensamiento, lenguaje, afectividad, conducta motora, sueño e ingesta,
+  relación) y la **prueba final**.
+- **Planetas**: secciones para explorar los 261 signos y una **misión** de 10 preguntas
+  con 3 escudos. 60 % = ⭐, 80 % = ⭐⭐, 100 % = ⭐⭐⭐. Una estrella desbloquea el siguiente.
+- **Retos**: reto del día, fichas con repetición espaciada, emparejar, diferencial,
+  contrarreloj, escritura y prueba final cronometrada.
+- **Casos clínicos**: 21 historias en las que se marcan los signos presentes y se elige
+  el síndrome.
+- **Constelaciones**: 21 síndromes descritos en las 7 dimensiones del examen mental, con
+  comparador lado a lado. **Glosario** con buscador.
+- **Gamificación**: XP, niveles y rangos, racha diaria, meta diaria, logros e historial.
 
-- **Ruta de aprendizaje** con 12 unidades y niveles de progreso por unidad.
-- **Palabras clave** con definiciones y fichas de repaso.
-- **Casos clínicos** con viñeta, preguntas y corrección explicada.
-- **Retos**: flashcards, emparejar término–definición, test rápido e identificación de síntomas.
-- **Modo examen** cronometrado, con autocorrección y preguntas de todo el temario.
-- **Repaso espaciado** (sistema Leitner) de los términos fallados.
-- **Gamificación**: XP, niveles, racha diaria, meta diaria, insignias, logros,
-  estadísticas y historial de actividad.
-- **Glosario** y **fichas de síndromes** buscables.
-- **Perfil** con avatar, modo oscuro, sonido y gestión de cuenta.
-- Sincronización opcional con la nube (Supabase) y respaldo local en el navegador.
-
-## Tecnologías
-
-- [Next.js 16](https://nextjs.org) (App Router) + React 19 + TypeScript
-- [Tailwind CSS 4](https://tailwindcss.com)
-- [Supabase](https://supabase.com) para autenticación y persistencia
+El contenido se redactó a partir de los apuntes de la asignatura (docente: Psi. Clin.
+Paola Intriago Alarcón, Mg).
 
 ## Puesta en marcha
 
@@ -35,42 +30,23 @@ npm install
 npm run dev
 ```
 
-Abre [http://localhost:3000](http://localhost:3000).
-
-Crea un archivo `.env` con tus credenciales de Supabase:
+Crea un archivo `.env` con:
 
 ```
 NEXT_PUBLIC_SUPABASE_URL=...
-NEXT_PUBLIC_SUPABASE_ANON_KEY=...
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=...
 ```
 
-Sin Supabase la app funciona igual, guardando el progreso solo en el navegador.
-Para sincronizar entre dispositivos, ejecuta `supabase/schema.sql` en el SQL Editor
-de tu proyecto de Supabase.
-
-## Scripts
-
-```bash
-npm run dev     # servidor de desarrollo
-npm run build   # compilación de producción
-npm run start   # servidor de producción
-npm run lint    # análisis estático
-```
-
-## Identidad visual
-
-Marca e interfaz propias de PsicoReto: logotipo Ψ (símbolo de la psicología),
-paleta violeta/índigo con acentos turquesa y ámbar, tipografías geométricas
-(Sora + Plus Jakarta Sans) y componentes de elevación suave. No reproduce la
-apariencia de otras aplicaciones.
+Para guardar el progreso en la nube, ejecuta `supabase/schema.sql` en el SQL Editor de
+Supabase. Sin esa tabla el progreso se guarda solo en el navegador.
 
 ## Estructura
 
 ```
-app/                 rutas (login, inicio, unidades, casos, retos, examen, repaso, …)
-components/          UI compartida (logo, navegación, runner de quizzes, tarjetas)
-lib/data/            contenido de la asignatura (unidades, casos, síndromes, datos)
-lib/progress.ts      progreso, XP, rachas, logros y repaso espaciado
-lib/quiz.ts          generadores de preguntas
-supabase/schema.sql  tabla y políticas de progreso
+app/page.tsx           inicio de sesión
+app/(juego)/           mapa, planeta, retos, casos, sindromes, glosario, yo
+components/            HUD, motor de partidas, planetas, UI
+lib/contenido/         funciones y signos, síndromes, casos, diferenciales
+lib/estado.ts          XP, racha, niveles, misiones, fichas (SM-2) y logros
+lib/practica.ts        generadores de preguntas
 ```

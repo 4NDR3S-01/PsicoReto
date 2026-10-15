@@ -1,39 +1,27 @@
 import type { Metadata, Viewport } from "next";
-import { Plus_Jakarta_Sans, Sora } from "next/font/google";
-import { AuthProvider } from "@/components/providers";
+import { Manrope, Space_Grotesk } from "next/font/google";
+import { AuthProvider } from "@/components/proveedores";
 import "./globals.css";
 
-const jakarta = Plus_Jakarta_Sans({ variable: "--font-jakarta", subsets: ["latin"] });
-const sora = Sora({ variable: "--font-sora", subsets: ["latin"] });
+const display = Space_Grotesk({ variable: "--f-display", subsets: ["latin"] });
+const sans = Manrope({ variable: "--f-sans", subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: {
-    default: "PsicoReto · Semiología psiquiátrica",
-    template: "%s · PsicoReto",
-  },
+  title: { default: "Semiopsique", template: "%s · Semiopsique" },
   description:
-    "Aprende semiología y psicopatología a tu ritmo: unidades, casos clínicos, retos diarios, repaso espaciado y modo examen.",
-  applicationName: "PsicoReto",
-  keywords: ["psicopatología", "semiología", "psicología", "casos clínicos", "aprendizaje"],
+    "Explora la galaxia de la semiología psiquiátrica: planetas por función psíquica, misiones, retos diarios, casos clínicos y prueba final.",
+  applicationName: "Semiopsique",
 };
 
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#6c4cf1" },
-    { media: "(prefers-color-scheme: dark)", color: "#12101d" },
-  ],
+  themeColor: "#070b1d",
 };
-
-const themeScript = `try{if(localStorage.getItem('theme')==='dark')document.documentElement.classList.add('dark')}catch(e){}`;
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="es" className={`${sora.variable} ${jakarta.variable} h-full antialiased`} suppressHydrationWarning>
-      <head>
-        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
-      </head>
+    <html lang="es" className={`${display.variable} ${sans.variable} h-full antialiased`}>
       <body className="min-h-full font-sans">
         <AuthProvider>{children}</AuthProvider>
       </body>
