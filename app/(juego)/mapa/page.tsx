@@ -2,12 +2,14 @@
 
 import Link from "next/link";
 import { Icono } from "@/components/iconos";
+import { MiPato } from "@/components/pato";
 import { CORTO, Planeta } from "@/components/planeta";
 import { useEstado } from "@/components/proveedores";
 import { Barra, Estrellas } from "@/components/ui";
 import { FUNCIONES, getFuncion } from "@/lib/contenido/funciones";
 import { SINDROMES } from "@/lib/contenido/sindromes";
 import { desbloqueado, estrellas, hoy, nivel, pendientes, progresoGalaxia, yaHizoDiario } from "@/lib/estado";
+import { dichoMapa } from "@/lib/mascota";
 import { signoDelDia } from "@/lib/practica";
 
 // Posición horizontal (%) de cada planeta en la ruta.
@@ -33,12 +35,15 @@ export default function Mapa() {
     <div className="grid gap-8 lg:grid-cols-[1fr_340px]">
       <section>
         <div className="aparecer vidrio flex items-center gap-4 p-5">
-          <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-cian/30 to-nebulosa/40 text-3xl">
-            {estado.ajustes.avatar}
-          </span>
+          <Link href="/yo#pato" aria-label={`Ver a ${estado.pato.nombre}`} className="shrink-0">
+            <MiPato className="flotar h-16 w-16" />
+          </Link>
           <div className="min-w-0 flex-1">
             <p className="text-lg font-bold">
               ¡Hola{nombre ? `, ${nombre}` : ""}! <span className="text-tenue">· {nv.rango}</span>
+            </p>
+            <p className="text-sm text-tenue">
+              <b className="text-tinta">{estado.pato.nombre}:</b> {dichoMapa(estado)}
             </p>
             <div className="mt-2 flex items-center gap-3">
               <Barra valor={nv.pct} color="#4fd1ff" className="flex-1" />

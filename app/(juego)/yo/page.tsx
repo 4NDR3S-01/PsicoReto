@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Icono } from "@/components/iconos";
+import { MiPato, Pato } from "@/components/pato";
 import { ASPECTO, CORTO, Planeta } from "@/components/planeta";
 import { useEstado, useSesion } from "@/components/proveedores";
 import { Barra, Estrellas } from "@/components/ui";
@@ -22,6 +23,7 @@ import {
   type Estado,
   type Modo,
 } from "@/lib/estado";
+import { etapa } from "@/lib/mascota";
 import { supabase } from "@/lib/supabase";
 
 const AVATARES = ["🧑‍🚀", "👩‍🚀", "👨‍🚀", "🛸", "🌙", "🪐", "☄️", "🌟", "🦉", "🐙", "🦊", "🧠"];
@@ -45,9 +47,14 @@ export default function Yo() {
   const [nombre, setNombre] = useState(estado.ajustes.nombre);
   const [confirmar, setConfirmar] = useState(false);
   const [guardado, setGuardado] = useState(false);
+  const [nombrePato, setNombrePato] = useState(estado.pato.nombre);
+  const [patoGuardado, setPatoGuardado] = useState(false);
   const nv = nivel(estado.xp);
   const logros = LOGROS.map((l) => ({ ...l, hecho: l.ok(estado) }));
   const ajustar = (a: Partial<Estado["ajustes"]>) => actualizar((e) => ({ ...e, ajustes: { ...e.ajustes, ...a } }));
+  const ajustarPato = (p: Partial<Estado["pato"]>) => actualizar((e) => ({ ...e, pato: { ...e.pato, ...p } }));
+  const forma = etapa(nv.n);
+  const proxima = etapa(nv.n + 1);
 
   const semana = Array.from({ length: 7 }, (_, i) => {
     const d = sumarDias(hoy(), i - 6);
@@ -91,6 +98,52 @@ export default function Yo() {
               <p className="text-xs text-tenue">{x.t}</p>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* Mascota */}
+      <section id="pato" className="vidrio relative scroll-mt-24 overflow-hidden p-6">
+        <div className="absolute -left-16 -bottom-16 h-56 w-56 rounded-full bg-cian/20 blur-3xl" />
+        <div className="relative flex flex-col items-center gap-6 sm:flex-row sm:items-start">
+          <MiPato humor="feliz" className="flotar h-40 w-40 shrink-0" />
+          <div className="w-full flex-1 text-center sm:text-left">
+            <p className="etiqueta">Tu compañero · forma {Math.min(nv.n, 11)}</p>
+            <h2 className="mt-1 text-2xl font-bold">
+              {estado.pato.nombre} <span className="text-tenue">· {forma.nombre}</span>
+            </h2>
+            <p className="mt-1 text-sm text-tenue">{forma.texto}</p>
+
+            <div className="mt-4 flex items-center gap-3 rounded-2xl bg-white/5 p-3 text-left">
+              <Pato nivel={nv.n + 1} className="h-14 w-14 shrink-0 opacity-40 brightness-0 invert" />
+              <div className="min-w-0 flex-1">
+                <p className="text-sm font-bold">
+                  Próxima evolución en el nivel {nv.n + 1}: <span className="text-cian">{proxima.nombre}</span>
+                </p>
+                <div className="mt-2 flex items-center gap-3">
+                  <Barra valor={nv.pct} color="#8b7bff" className="flex-1" />
+                  <span className="shrink-0 text-xs font-bold text-tenue">faltan {nv.costo - nv.actual} XP</span>
+                </div>
+              </div>
+            </div>
+
+            <form
+              className="mt-4 flex max-w-md gap-2"
+              onSubmit={(e) => {
+                e.preventDefault();
+                ajustarPato({ nombre: nombrePato.trim() || "Cuac" });
+                setPatoGuardado(true);
+              }}
+            >
+              <input
+                className="campo"
+                aria-label="Nombre de tu pato"
+                maxLength={20}
+                value={nombrePato}
+                onChange={(e) => (setNombrePato(e.target.value), setPatoGuardado(false))}
+              />
+              <button className="boton boton-vidrio">{patoGuardado ? "✓" : "Renombrar"}</button>
+            </form>
+          </div>
         </div>
       </section>
 
