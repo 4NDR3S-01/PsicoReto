@@ -59,7 +59,8 @@ export default function Mapa() {
           <span className="text-sm font-semibold text-tenue">{progresoGalaxia(estado)}% explorado</span>
         </div>
 
-        <div className="relative mx-auto mt-4 max-w-lg" style={{ height: alto }}>
+        {/* overflow-x-clip: el anillo animado del planeta «Siguiente» no debe ensanchar la página en móvil */}
+        <div className="relative mx-auto mt-4 max-w-lg overflow-x-clip" style={{ height: alto }}>
           <svg className="absolute inset-0 h-full w-full" viewBox={`0 0 100 ${alto}`} preserveAspectRatio="none" aria-hidden>
             <path d={ruta} fill="none" stroke="rgba(255,255,255,.18)" strokeWidth="2" strokeDasharray="6 8" vectorEffect="non-scaling-stroke" />
           </svg>
