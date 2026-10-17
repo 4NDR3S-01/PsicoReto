@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { Icono, type NombreIcono } from "./iconos";
 import { Simbolo } from "./marca";
+import { MiPato } from "./pato";
 
 export function Splash() {
   return (
@@ -135,7 +136,7 @@ export function FinPartida({
   const frase = mensaje ?? (pct === 100 ? "¡Misión perfecta!" : pct >= 80 ? "¡Gran viaje!" : pct >= 60 ? "Buen rumbo, sigue así." : "Toca repasar antes del próximo despegue.");
   return (
     <div className="aparecer mx-auto flex max-w-xl flex-col items-center text-center">
-      <span className="flotar mt-4 text-7xl">{pct >= 80 ? "🚀" : pct >= 60 ? "🛰️" : "🌑"}</span>
+      <MiPato humor={pct >= 80 ? "festejo" : pct >= 60 ? "feliz" : "triste"} className="mt-2 h-32 w-32" />
       <p className="etiqueta mt-6">{titulo}</p>
       <h1 className="mt-2 text-3xl font-bold">{frase}</h1>
       {estrellas !== undefined && (

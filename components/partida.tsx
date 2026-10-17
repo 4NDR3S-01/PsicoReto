@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { Icono } from "./iconos";
+import { MiPato } from "./pato";
 import { Barra, FinPartida, formatoTiempo, useTeclas } from "./ui";
 import type { PreguntaJuego } from "@/lib/practica";
 
@@ -191,6 +192,7 @@ export function Partida({
           role="status"
         >
           <div className="flex flex-wrap items-center justify-between gap-4">
+            <MiPato key={i} humor={acerto ? "feliz" : "triste"} className={`h-14 w-14 shrink-0 ${acerto ? "aparecer" : "sacudir"}`} />
             <div className="min-w-0 flex-1">
               <p className={`flex items-center gap-2 text-lg font-bold ${acerto ? "text-menta" : "text-coral"}`}>
                 <Icono nombre={acerto ? "check" : "equis"} className="h-5 w-5" />
