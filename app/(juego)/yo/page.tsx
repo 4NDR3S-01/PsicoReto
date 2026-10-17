@@ -307,7 +307,8 @@ export default function Yo() {
               <button
                 className="boton bg-coral text-noche"
                 onClick={() => {
-                  actualizar((e) => ({ ...estadoInicial(), ajustes: e.ajustes }));
+                  // El pato conserva su nombre y vuelve a ser huevo sin volver a presentarse.
+                  actualizar((e) => ({ ...estadoInicial(), ajustes: e.ajustes, pato: { ...e.pato, visto: 1, accesorio: null } }));
                   setConfirmar(false);
                 }}
               >
