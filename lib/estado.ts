@@ -47,6 +47,8 @@ export type Estado = {
   perfectas: number;
   finales: number[];
   ajustes: { nombre: string; avatar: string; meta: number; nuevas: number };
+  /** Mascota: nombre, último nivel que ya se celebró (0 = aún no se presentó) y accesorio puesto. */
+  pato: { nombre: string; visto: number; accesorio: string | null };
 };
 
 export const estadoInicial = (): Estado => ({
@@ -65,6 +67,7 @@ export const estadoInicial = (): Estado => ({
   perfectas: 0,
   finales: [],
   ajustes: { nombre: "", avatar: "🧑‍🚀", meta: 50, nuevas: 10 },
+  pato: { nombre: "Cuac", visto: 0, accesorio: null },
 });
 
 /** Acepta cualquier valor guardado y devuelve un Estado válido (descarta formatos antiguos). */
@@ -72,7 +75,7 @@ export function normalizar(x: unknown): Estado {
   const base = estadoInicial();
   if (!x || typeof x !== "object" || (x as { v?: number }).v !== 1 || !("xp" in x)) return base;
   const e = x as Partial<Estado>;
-  return { ...base, ...e, v: 1, ajustes: { ...base.ajustes, ...e.ajustes } };
+  return { ...base, ...e, v: 1, ajustes: { ...base.ajustes, ...e.ajustes }, pato: { ...base.pato, ...e.pato } };
 }
 
 /* ───────────── XP, racha y rangos ───────────── */
