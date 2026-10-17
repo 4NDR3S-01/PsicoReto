@@ -23,7 +23,7 @@ import {
   type Estado,
   type Modo,
 } from "@/lib/estado";
-import { etapa } from "@/lib/mascota";
+import { ACCESORIOS, accesorioPuesto, etapa, tieneAccesorio } from "@/lib/mascota";
 import { supabase } from "@/lib/supabase";
 
 const AVATARES = ["🧑‍🚀", "👩‍🚀", "👨‍🚀", "🛸", "🌙", "🪐", "☄️", "🌟", "🦉", "🐙", "🦊", "🧠"];
@@ -144,6 +144,47 @@ export default function Yo() {
               <button className="boton boton-vidrio">{patoGuardado ? "✓" : "Renombrar"}</button>
             </form>
           </div>
+        </div>
+
+        <div className="relative mt-6 border-t border-white/10 pt-5">
+          <p className="etiqueta">
+            Accesorios · {ACCESORIOS.filter((a) => tieneAccesorio(estado, a)).length}/{ACCESORIOS.length}
+          </p>
+          <p className="mt-1 text-xs text-tenue">Gana uno por cada planeta donde consigas al menos una estrella.</p>
+          <ul className="mt-3 grid grid-cols-3 gap-2 sm:grid-cols-6">
+            <li>
+              <button
+                onClick={() => ajustarPato({ accesorio: null })}
+                aria-pressed={!accesorioPuesto(estado)}
+                className={`flex h-full w-full flex-col items-center gap-1 rounded-2xl p-2 text-center ${
+                  !accesorioPuesto(estado) ? "border-2 border-cian bg-cian/15" : "bg-white/5 hover:bg-white/10"
+                }`}
+              >
+                <span className="text-2xl">🐥</span>
+                <span className="text-[11px] font-bold leading-tight">Ninguno</span>
+              </button>
+            </li>
+            {ACCESORIOS.map((a) => {
+              const ok = tieneAccesorio(estado, a);
+              const puesto = accesorioPuesto(estado) === a.id;
+              return (
+                <li key={a.id}>
+                  <button
+                    onClick={() => ajustarPato({ accesorio: a.id })}
+                    disabled={!ok}
+                    aria-pressed={puesto}
+                    title={ok ? a.nombre : `Consigue una estrella en ${CORTO[a.planeta]}`}
+                    className={`flex h-full w-full flex-col items-center gap-1 rounded-2xl p-2 text-center ${
+                      puesto ? "border-2 border-cian bg-cian/15" : ok ? "bg-white/5 hover:bg-white/10" : "opacity-35 grayscale"
+                    }`}
+                  >
+                    <span className="text-2xl">{ok ? a.icono : "🔒"}</span>
+                    <span className="text-[11px] font-bold leading-tight">{ok ? a.nombre : CORTO[a.planeta]}</span>
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
         </div>
       </section>
 

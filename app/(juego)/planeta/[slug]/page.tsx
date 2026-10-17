@@ -4,11 +4,13 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useState } from "react";
 import { Icono } from "@/components/iconos";
+import { MiPato } from "@/components/pato";
 import { ASPECTO, Planeta } from "@/components/planeta";
 import { useEstado } from "@/components/proveedores";
 import { Barra, Estrellas, Vacio } from "@/components/ui";
 import { FUNCIONES, getFuncion } from "@/lib/contenido/funciones";
 import { claveExplorado, desbloqueado, dominio, DOMINADO, estrellas, ganarXp, progresoPlaneta, XP } from "@/lib/estado";
+import { accesorioDe, dichoPlaneta, tieneAccesorio } from "@/lib/mascota";
 
 export default function PaginaPlaneta() {
   const { slug } = useParams<{ slug: string }>();
@@ -59,6 +61,8 @@ export default function PaginaPlaneta() {
   }
 
   const total = f.apartados.reduce((n, a) => n + a.signos.length, 0);
+  const premio = accesorioDe(f.slug);
+  const ganado = tieneAccesorio(estado, premio);
 
   return (
     <div className="aparecer">
@@ -98,6 +102,20 @@ export default function PaginaPlaneta() {
         <p className="relative mt-4 text-xs text-tenue">
           Misión: {Math.min(10, total * 2)} preguntas y 3 escudos. 60% ⭐ · 80% ⭐⭐ · 100% ⭐⭐⭐. Una estrella desbloquea el siguiente planeta.
         </p>
+      </section>
+
+      <section className="mt-6 flex items-end gap-3">
+        <MiPato humor={est >= 1 ? "feliz" : "normal"} className="h-20 w-20 shrink-0" />
+        <div className="vidrio relative flex-1 rounded-bl-md p-4">
+          <p className="text-sm">
+            <b className="text-cian">{estado.pato.nombre}:</b> {dichoPlaneta(estado, f)}
+          </p>
+          <p className={`mt-2 inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-bold ${ganado ? "bg-menta/15 text-menta" : "bg-white/5 text-tenue"}`}>
+            {ganado ? <Icono nombre="check" className="h-3.5 w-3.5" /> : <Icono nombre="candado" className="h-3.5 w-3.5" />}
+            Recompensa del planeta: {premio.icono} {premio.nombre}
+            {!ganado && " · 1 estrella"}
+          </p>
+        </div>
       </section>
 
       <h2 className="mb-3 mt-8 text-xl font-bold">Explorar el planeta</h2>

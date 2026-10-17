@@ -8,6 +8,7 @@ import { useEstado } from "@/components/proveedores";
 import { Vacio } from "@/components/ui";
 import { getFuncion } from "@/lib/contenido/funciones";
 import { desbloqueado, estrellas, registrarPartida, registrarRespuestas, XP } from "@/lib/estado";
+import { accesorioDe } from "@/lib/mascota";
 import { mision } from "@/lib/practica";
 
 export default function Mision() {
@@ -48,10 +49,15 @@ export default function Mision() {
       );
     });
     const desbloquea = estrellas(pct) >= 1 && estrellas(anterior) === 0;
+    const premio = accesorioDe(f!.slug);
     return {
       xp,
       estrellas: estrellas(pct),
-      mensaje: !completa ? "Te quedaste sin escudos" : desbloquea ? "¡Nuevo planeta desbloqueado! 🪐" : undefined,
+      mensaje: !completa
+        ? "Te quedaste sin escudos"
+        : desbloquea
+          ? `¡Planeta conquistado! ${estado.pato.nombre} ganó ${premio.icono} ${premio.nombre}`
+          : undefined,
     };
   }
 
